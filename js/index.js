@@ -124,7 +124,8 @@ function parseBBCode(text) {
     // Imagemap
 
     // YouTube
-
+    parsedText = parsedText.replace(/\[youtube](.*?)\[\/youtube]/gis, '<iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>');
+    
     // Audio
     parsedText = parsedText.replace(/\[audio](.*?)\[\/audio]/gis, '<audio controls src="$1"></audio>');
     
