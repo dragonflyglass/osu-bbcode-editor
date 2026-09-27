@@ -90,7 +90,7 @@ function parseBBCode(text) {
     parsedText = parseBoxes(parsedText);
 
     // Spoilerbox
-
+    
     // Quote
     parsedText = parsedText.replace(/\[quote](.*?)\[\/quote]/gis, '<blockquote>$1</blockquote>');
     parsedText = parsedText.replace(/\[quote=(.*?)](.*?)\[\/quote]/gis, '<blockquote><strong>$1 wrote:</strong><br>$2</blockquote>');
@@ -126,7 +126,8 @@ function parseBBCode(text) {
     // YouTube
 
     // Audio
-
+    parsedText = parsedText.replace(/\[audio](.*?)\[\/audio]/gis, '<audio controls src="$1"></audio>');
+    
     // Heading (v1)
     parsedText = parsedText.replace(/\[heading](.*?)\[\/heading]/gis, '<span style="color:#e0b8ca;"><h2>$1</h2></span>');
 
@@ -175,7 +176,7 @@ function parseBoxes(text) {
 function createBox(name, content) {
     content = content.replace(/^<br>/,"");
     content = content.replace(/<br>$/,"");
-    const boxId = `box-${name.substring(0, 9)}-${boxCounters[name]}`;
+    const boxId = `box-${Math.random().toString(36).slice(2)}`;
     const isOpen = boxStates[boxId] === 'open';
     return `
         <div class="box" onclick="toggleBox('${boxId}', this)">
