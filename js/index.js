@@ -122,6 +122,37 @@ function parseBBCode(text) {
     parsedText = parsedText.replace(/\[img](.*?)\[\/img]/gis, '<img src="$1" alt="Image">');
 
     // Imagemap
+    parsedText = parsedText.replace(/\[imagemap\]([\s\S]*?)\[\/imagemap\]/gi, (match, content) => {
+    const lines = content
+        .split(/<br\s*\/?>/gi)
+        .map(line => line.trim())
+        .filter(Boolean);
+    const imageUrl = lines.shift();
+    let html = `<div style="position:relative;display:inline-block;">`;
+    html += `<img src="${imageUrl}" alt="Image">`;
+    for (const line of lines) {
+        const parts = line.match(
+            /^([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+(\S+)\s+(.+)$/
+        );
+        if (!parts) continue;
+        const [, x, y, width, height, url, title] = parts;
+        html += `
+            <a
+                href="${url}"
+                title="${title}"
+                style="
+                    position:absolute;
+                    left:${x}%;
+                    top:${y}%;
+                    width:${width}%;
+                    height:${height}%;
+                "
+            ></a>
+        `;
+        }
+    html += `</div>`;
+    return html;
+    });
 
     // YouTube
     parsedText = parsedText.replace(/\[youtube](.*?)\[\/youtube]/gis, '<iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>');
