@@ -1,1 +1,1 @@
-# Use [rezzvy's editor](https://github.com/rezzvy/osuwme) instead, it's much better :)
+# Slightly edited to fix bugs and add stuff not done
